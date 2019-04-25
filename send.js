@@ -1,15 +1,17 @@
 var amqp = require("amqplib/callback_api");
 
-amqp.connect("amqp://localhost", function(err, conn) {
-  conn.createChannel(function(err, ch) {
-    var ex = "direct_logs";
-    var args = process.argv.slice(2);
-    var msg = args.slice(1).join(" ") || "Hello World!";
-    var severity = args.length > 0 ? args[0] : "info";
+var amqpURL =
+  "amqp://dfphquwm:3rfY8-meIsZOEzZl9TnaAUBtI6G0tAKr@macaw.rmq.cloudamqp.com/dfphquwm";
 
-    ch.assertExchange(ex, "direct", { durable: false });
-    ch.publish(ex, severity, new Buffer(msg));
-    console.log(" [x] Sent %s: '%s'", severity, msg);
+amqp.connect(amqpURL, function(err, conn) {
+  conn.createChannel(function(err, ch) {
+    var q = "CloudAMQP";
+    var args = process.argv.slice(2);
+    var msg = args.slice(0).join(" ") || "Hello World!";
+
+    ch.assertQueue(q, { durable: false });
+
+    ch.sendToQueue(q, Buffer.from(msg));
   });
 
   setTimeout(function() {

@@ -15,5 +15,7 @@ request(url, function(err, response, body) {
     // let long = weather.long;
     let message = `Es sind ${weather.main.temp}° in ${city}.`;
     console.log(message);
+
+    exports.message = message;
   }
 });

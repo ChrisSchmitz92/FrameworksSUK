@@ -7,7 +7,7 @@ amqp.connect(amqpURL, function(err, conn) {
   conn.createChannel(function(err, ch) {
     var q = "CloudAMQP";
     var args = process.argv.slice(2);
-    var msg = args.slice(0).join(" ") || "Hello World!";
+    var msg = args.slice(0).join(" ") || "Wetter in Gummersbach 14 C°.";
 
     ch.assertQueue(q, { durable: false });
 
